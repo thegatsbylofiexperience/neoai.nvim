@@ -45,6 +45,26 @@ M.get_defaults = function()
             ["select_down"] = "<C-j>",
         },
         open_ai = {
+            base_uri = {
+                env = "OPENAI_API_BASE",
+                value = nil,
+                get = function()
+                    local open_api_base = nil
+                    if M.options.open_ai.base_uri.value then
+                        open_ai_base_uri = M.options.open_ai.base_uri.value
+                    else
+                        local env_name
+                        env_name = M.options.open_ai.base_uri.env
+                        open_ai_base_uri = os.getenv(env_name)
+                    end
+
+                    if open_ai_base_uri then
+                        return open_ai_base_uri
+                    else
+                        return "https://api.openai.com/v1"
+                    end
+                end,
+            },
             api_key = {
                 env = "OPENAI_API_KEY",
                 value = nil,
